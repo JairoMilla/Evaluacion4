@@ -7,6 +7,8 @@ using (EFContext bd = new EFContext())
 
     //--------------------------------------------------------Lectura--------------------------------------------------------
     /* 1) Obtener los autores de manga cuyos IDs estén entre 1 y 4, ordenados por Id de forma descendente */
+    // SELECT * FROM AutorManga WHERE Id >= 1 AND Id <= 4
+    // ORDER BY Id DESC;
     var autoresOrdenados = bd.AutorManga
         .Where(x => x.Id >= 1 && x.Id <= 4)
         .OrderByDescending(x => x.Id)
@@ -21,6 +23,7 @@ using (EFContext bd = new EFContext())
     }
 
     /* 2) Obtener el promedio de la cantidad de tomos de mangas */
+    // SELECT AVG(CantidadTomos) FROM Manga
     double promedioTomos = bd.Manga.Average(x => x.CantidadTomos);
         Console.WriteLine(" ");
         Console.WriteLine("Promeido de tomos entre los mangas");
@@ -28,6 +31,7 @@ using (EFContext bd = new EFContext())
         Console.WriteLine(" ");
 
     /* 3) Obtener la fecha menor de los autores */
+    // SELECT MIN(FechaNacimiento) FROM AutorManga;
     DateTime min = bd.AutorManga.Min(x => x.FechaNacimiento);
     Console.WriteLine(" ");
     Console.Write("La primera persona en nacer de las ingresadas nació el día: ");
@@ -42,6 +46,10 @@ using (EFContext bd = new EFContext())
            Se sabe la actual actividad del autor. 
            Cantidad de obras: 6                   
     */
+
+    // INSERT INTO AutorManga(NombreAutor, FechaNacimiento, Activo, CantidadObras)
+    // VALUES("Yuki Tabata", "1984-07-30", true, 6);
+
 
     AutorManga nuevoAutor = new AutorManga()
     {
@@ -64,6 +72,8 @@ using (EFContext bd = new EFContext())
     //--------------------------------------------------------Actualización--------------------------------------------------------
     /* 5) Actualizar el Nombre del autor "Akira Toriyama" a "Toriyama" y la cantidad de obras de 50 a 51
            a través de la búsqueda de su id */
+    // UPDATE AutorManga SET NombreAutor = 'Toriyama' WHERE Id = 3;
+    // UPDATE AutorManga SET CantidadObras = '51' WHERE Id = 3;
     var autorEditar = bd.AutorManga.FirstOrDefault(x => x.Id == 3);
 
     autorEditar.NombreAutor = "Toriyama";
@@ -84,6 +94,7 @@ using (EFContext bd = new EFContext())
     /* 6) Eliminar el manga "Tomie"
           a través de la búsqueda de su ID (21)
     */
+    //DELETE from Manga where Id=21;
 
     var mangaElminar = bd.Manga.FirstOrDefault(x => x.Id == 21);
     bd.Manga.Remove(mangaElminar);
